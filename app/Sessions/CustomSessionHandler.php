@@ -83,7 +83,8 @@ class CustomSessionHandler extends Model implements SessionHandlerInterface
             ->where('dateb <', time() - $max_lifetime)
             ->delete();
 
-        return true;
+
+        return $this->db->affectedRows();
 
     }
 

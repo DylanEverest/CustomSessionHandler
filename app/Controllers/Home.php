@@ -13,8 +13,7 @@ class Home extends ControllersBase2Controller
     {
         // $a = new CustomSessionHandler('clustering','session');
         // $a->findAll();
-
         session_start();
-        $_SESSION['alika'] = 03;
+        session_destroy();
     }
 }
