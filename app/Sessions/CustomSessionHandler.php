@@ -5,16 +5,21 @@ use CodeIgniter\Model;
 
 class CustomSessionHandler extends Model implements SessionHandlerInterface
 {
-    protected $DBGroup ='session';
+    protected $DBGroup ;
 
-    protected $table ='session';
-
-
+    protected $table ;
 
 
+
+    public function __construct($DBGroup , $table)
+    {
+        $this->DBGroup = $DBGroup;
+        $this->table = $table;
+    }
 
     public function write(string $id, string $data): bool
     {
+        $id = $this->encryptSessionID($id);
         
         $this->db->table($this->table)
             ->replace([

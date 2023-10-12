@@ -6,7 +6,7 @@ class Base2Controller extends BaseController
 {
     public function __construct()
     {
-        $customSessionHandler = new CustomSessionHandler();
+        $customSessionHandler = new CustomSessionHandler('session','session');
 
         session_set_save_handler($customSessionHandler, true);
     }
