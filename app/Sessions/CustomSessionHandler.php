@@ -1,31 +1,34 @@
 <?php
 
-use App\Controllers\BaseController;
+
+namespace App\Sessions;
 use CodeIgniter\Model;
+use SessionHandlerInterface;
 
 class CustomSessionHandler extends Model implements SessionHandlerInterface
 {
-    protected $DBGroup ;
 
-    protected $table ;
-
-
+    protected $DBGroup          = 'clustering';
+    protected $table            = 'session';
+    protected $primaryKey       = 'pk';
+    protected $useAutoIncrement = true;
 
     public function __construct($DBGroup , $table)
     {
-        $this->DBGroup = $DBGroup;
+
+        parent::__construct(); // Initialize the model
+
+        $this->DBGroup = $DBGroup; // Set the database group
         $this->table = $table;
     }
 
     public function write(string $id, string $data): bool
     {
         $id = $this->encryptSessionID($id);
-        
         $this->db->table($this->table)
             ->replace([
-                'session_id' => $id,
-                'data' => $data,
-                'timestamp' => time(),
+                'cryptedidsession' => $id,
+                'sessions' => $data
             ]);
 
         return true;
@@ -35,12 +38,8 @@ class CustomSessionHandler extends Model implements SessionHandlerInterface
     public function open(string $path, string $name): bool
     {
         // manokatra anle connection ohatra 
-        if (empty($this->db->connID)) 
-        {
-            $this->db->initialize();
+        return ($this->DBGroup !=null && $this->table !=null) ;
 
-            return true;
-        }
     }
 
     public function close(): bool
@@ -48,31 +47,28 @@ class CustomSessionHandler extends Model implements SessionHandlerInterface
 
         return true;
     }
-
     public function read(string $id): string|false
     {
+
         $id = $this->encryptSessionID($id);
-
-        $sessionRow = $this->db->table($this->table)
-        ->where('session_id', $id)
-        ->get()
-        ->getRow();
-
+    
+        $sessionRow = $this->where('cryptedidsession', $id)->first();
+    
         if ($sessionRow) 
         {
-            return $sessionRow->data;
+            return $sessionRow['sessions'];
         } else 
         {
-            return false;
+            return '';
         }
-
     }
+    
     public function destroy(string $id): bool
     {
         $id = $this->encryptSessionID($id);
 
         $this->db->table($this->table)
-            ->where('session_id', $id)
+            ->where('cryptedidsession', $id)
             ->delete();
 
         return true;
@@ -84,7 +80,7 @@ class CustomSessionHandler extends Model implements SessionHandlerInterface
     {
         
         $this->db->table($this->table)
-            ->where('timestamp <', time() - $max_lifetime)
+            ->where('dateb <', time() - $max_lifetime)
             ->delete();
 
         return true;

@@ -1,0 +1,9 @@
+CRITICAL - 2023-10-12 03:29:43 --> session_start(): Failed to read session data: user (path: )
+in APPPATH/Controllers/Home.php on line 17.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH/Controllers/Home.php(17): session_start()
+ 3 SYSTEMPATH/CodeIgniter.php(932): App\Controllers\Home->index()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(366): CodeIgniter\CodeIgniter->handleRequest()
+ 6 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/home/dylan/Desktop/Clustering/PhpSession/framework-4.3.6/public/index.php')

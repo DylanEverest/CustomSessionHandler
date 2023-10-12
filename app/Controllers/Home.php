@@ -2,14 +2,19 @@
 
 namespace App\Controllers;
 
-class Home extends BaseController
+use App\Controllers\Base2Controller as ControllersBase2Controller;
+use App\Models\Test;
+use App\Sessions\CustomSessionHandler;
+use Base2Controller;
+
+class Home extends ControllersBase2Controller
 {
     public function index()
     {
+        // $a = new CustomSessionHandler('clustering','session');
+        // $a->findAll();
 
-        echo openssl_encrypt("Alain",'aes-256-cbc',"Tendry",0,"aaaaaaaaaaaaaafb");
-
-        echo openssl_decrypt("qGX3X7j8jytIqFschk29wA==" ,'aes-256-cbc',"Tendry",0,"aaaaaaaaaaaaaafb");
-        // return view('welcome_message');
+        session_start();
+        $_SESSION['alika'] = 03;
     }
 }
