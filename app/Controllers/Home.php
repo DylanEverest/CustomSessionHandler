@@ -14,6 +14,12 @@ class Home extends ControllersBase2Controller
         // $a = new CustomSessionHandler('clustering','session');
         // $a->findAll();
         session_start();
-        session_destroy();
+        $_SESSION['adala']=22;
+    }
+
+    public function adala()
+    {
+        session_start();
+        echo $_SESSION['adala'];
     }
 }
